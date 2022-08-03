@@ -1,0 +1,22 @@
+.header__menu {
+  max-width: 300px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style-type: none;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 420px) {
+  .header__menu {
+    flex-direction: row;
+    gap: 24px;
+    margin: 6px 0 0;
+  }
+}

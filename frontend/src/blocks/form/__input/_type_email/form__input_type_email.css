@@ -1,0 +1,9 @@
+.form__input_type_email {
+  margin: 40px 0 0;
+}
+
+@media screen and (min-width: 768px) {
+  .form__input_type_email {
+    margin: 50px 0 0;
+  }
+}

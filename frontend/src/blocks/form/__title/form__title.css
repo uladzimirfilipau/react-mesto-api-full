@@ -1,0 +1,14 @@
+.form__title {
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 24px;
+
+  margin: 0;
+}
+
+@media screen and (min-width: 1024px) {
+  .form__title {
+    font-size: 24px;
+    line-height: 29px;
+  }
+}
