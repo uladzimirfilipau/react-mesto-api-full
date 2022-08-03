@@ -1,7 +1,6 @@
 {
   "name": "react-mesto-frontend",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "homepage": "https://vladimirfilippov.students.nomoredomains.sbs",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
