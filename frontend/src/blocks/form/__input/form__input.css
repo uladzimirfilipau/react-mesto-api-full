@@ -1,0 +1,30 @@
+.form__input {
+  min-width: 260px;
+  min-height: 27px;
+
+  padding: 0;
+  
+  background-color: #000;
+  border: none;
+  border-bottom: 2px solid #ccc;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: #fff;
+}
+
+.form__input::placeholder {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: #ccc;
+}
+
+@media screen and (min-width: 768px) {
+  .form__input {
+    min-width: 358px;
+  }
+}

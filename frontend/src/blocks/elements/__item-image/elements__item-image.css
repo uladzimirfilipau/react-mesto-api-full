@@ -1,0 +1,13 @@
+.elements__item-image {
+  border-radius: 10px 10px 0 0;
+  min-width: 282px;
+  width: 100%;
+  min-height: 282px;
+  height: 282px;
+  object-fit: cover;
+  background-color: #C4C4C4;
+}
+
+.elements__item-image:hover {
+  cursor: pointer;
+}

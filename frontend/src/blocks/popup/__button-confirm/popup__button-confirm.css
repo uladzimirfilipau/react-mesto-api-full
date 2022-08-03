@@ -1,0 +1,22 @@
+.popup__button-confirm {
+  min-width: 238px;
+  min-height: 46px;
+  border: none;
+  background-color: #000;
+  border-radius: 2px;
+  margin: 15px auto 0;
+  transition: opacity 0.3s linear;
+}
+
+@media screen and (min-width: 768px) {
+  .popup__button-confirm {
+    min-width: 358px;
+    min-height: 50px;
+    margin: 38px auto 0;
+  }
+}
+
+.popup__button-confirm:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}

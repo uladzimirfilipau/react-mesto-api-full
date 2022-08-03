@@ -1,0 +1,10 @@
+.not-found__title {
+  color: #fff;
+  font-size: 32px;
+  line-height: 42px;
+  margin-bottom: 40px;
+}
+
+.not-found__title span {
+  display: block;
+}
