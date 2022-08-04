@@ -2,6 +2,7 @@
 const allowedCors = [
   'https://vladimirfilippov.students.nomoredomains.sbs',
   'http://vladimirfilippov.students.nomoredomains.sbs',
+  'http://localhost:3000',
   'localhost:3000',
 ];
 
@@ -12,7 +13,7 @@ module.exports = (req, res, next) => {
   // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
   const { method } = req;
   // Значение для заголовка Access-Control-Allow-Methods по умолчанию (разрешены все типы запросов)
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS';
   // сохраняем список заголовков исходного запроса
   const requestHeaders = req.headers['access-control-request-headers'];
 
@@ -20,6 +21,7 @@ module.exports = (req, res, next) => {
   if (allowedCors.includes(origin)) {
     // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
     res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', true);
   }
 
   if (method === 'OPTIONS') {
