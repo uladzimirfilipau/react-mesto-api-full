@@ -1,26 +1,27 @@
 {
   "name": "react-mesto-frontend",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://vladimirfilippov.students.nomoredomains.sbs",
+  "version": "1.0.0",
+  "homepage": "https://vladimirfilippov.students.nomoredomains.sbs/",
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
-    "nth-check": "^2.0.1",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^5.3.3",
-    "react-scripts": "^5.0.1",
-    "web-vitals": "^2.1.4"
+    "react-router-dom": "^5.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build",
+    "depsev": "npm run build && scp -r ./build/* vladimirfilippov@51.250.22.192:/home/vladimirfilippov/mesto-frontend"
   },
   "eslintConfig": {
     "extends": [
@@ -39,8 +40,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "gh-pages": "^4.0.0"
   }
 }
