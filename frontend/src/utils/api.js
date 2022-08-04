@@ -76,7 +76,7 @@ class Api {
 }
 
 const api = new Api({
-  url: 'https://vladimirfilippov.students.nomoredomains.sbs',
+  url: 'https://vladimirfilippov.students.nomoredomains.sbs/',
   headers: {
     'Content-Type': 'application/json',
   },
