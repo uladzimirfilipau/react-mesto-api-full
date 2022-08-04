@@ -3,6 +3,7 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const cors = require('./middlewares/cors');
 
 const mongoDB = 'mongodb://localhost:27017/mestodb';
 
@@ -20,6 +21,8 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cors);
 
 mongoose.connect(mongoDB, {
   useNewUrlParser: true,
