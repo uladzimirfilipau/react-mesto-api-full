@@ -96,7 +96,7 @@ function App() {
         if (res) {
           setLoggedIn(true);
           setIsInfoTooltipOpen(true);
-          history.push('/sign-in');
+          history.push('/signin');
         }
       })
       .catch(() => {
@@ -123,7 +123,7 @@ function App() {
     localStorage.removeItem('jwt');
     setEmail('');
     setLoggedIn(false);
-    history.push('/sign-in');
+    history.push('/signin');
   }
 
   // OPEN POPUPS
@@ -233,15 +233,15 @@ function App() {
             onCardDelete={handleDeleteCardClick}
           />
 
-          <Route path='/sign-up'>
+          <Route path='/signup'>
             <Register onRegister={handleRegister} />
           </Route>
 
-          <Route path='/sign-in'>
+          <Route path='/signin'>
             <Login onLogin={handleLogin} />
           </Route>
 
-          <Route>{loggedIn ? <Redirect to='/' /> : <Redirect to='/sign-up' />}</Route>
+          <Route>{loggedIn ? <Redirect to='/' /> : <Redirect to='/signup' />}</Route>
         </Switch>
         <Footer />
 

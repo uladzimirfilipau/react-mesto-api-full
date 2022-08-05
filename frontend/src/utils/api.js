@@ -12,13 +12,13 @@ class Api {
   }
 
   getProfileData() {
-    return fetch(`${this._url}users/me`, {
+    return fetch(`${this._url}/users/me`, {
       headers: this._headers,
     }).then(this._getRes);
   }
 
   getInitialCards() {
-    return fetch(`${this._url}cards`, {
+    return fetch(`${this._url}/cards`, {
       headers: this._headers,
     }).then(this._getRes);
   }
@@ -28,7 +28,7 @@ class Api {
   }
 
   editProfileAvatar(data) {
-    return fetch(`${this._url}users/me/avatar`, {
+    return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -38,7 +38,7 @@ class Api {
   }
 
   editProfileInfo(data) {
-    return fetch(`${this._url}users/me`, {
+    return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -49,7 +49,7 @@ class Api {
   }
 
   addCard(data) {
-    return fetch(`${this._url}cards`, {
+    return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -60,7 +60,7 @@ class Api {
   }
 
   deleteCard(_id) {
-    return fetch(`${this._url}cards/${_id}`, {
+    return fetch(`${this._url}/cards/${_id}`, {
       method: 'DELETE',
       headers: this._headers,
     }).then(this._getRes);
@@ -68,7 +68,7 @@ class Api {
 
   changeLikeCardStatus(cardId, like) {
     const methodName = like ? 'PUT' : 'DELETE';
-    return fetch(`${this._url}cards/${cardId}/likes`, {
+    return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: methodName,
       headers: this._headers,
     }).then(this._getRes);
@@ -76,7 +76,7 @@ class Api {
 }
 
 const api = new Api({
-  url: 'https://vladimirfilippov.students.nomoredomains.sbs/',
+  url: 'https://vladimirfilippov.students.nomoredomains.sbs',
   headers: {
     'Content-Type': 'application/json',
   },
