@@ -31,7 +31,7 @@ function Login({ onLogin }) {
     >
       <p className='form__caption'>
         Не зарегистрированы?&nbsp;
-        <Link to='sign-up' className='form__link'>
+        <Link to='signup' className='form__link'>
           Регистрация
         </Link>
       </p>

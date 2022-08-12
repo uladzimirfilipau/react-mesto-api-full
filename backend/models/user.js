@@ -1,22 +1,22 @@
 /* eslint-disable func-names */
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 const bcrypt = require('bcryptjs');
 const isEmail = require('validator/lib/isEmail');
 const isUrl = require('validator/lib/isURL');
 const AuthError = require('../errors/AuthError');
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
     name: {
       type: String,
-      minlength: [2, 'Минимальная длина поля `Имя` - 2 символа'],
-      maxlength: [30, 'Максимальная длина поля `Имя` - 30 символов'],
+      minlength: 2,
+      maxlength: 30,
       default: 'Жак-Ив Кусто',
     },
     about: {
       type: String,
-      minlength: [2, 'Минимальная длина поля `Профессия` - 2 символа'],
-      maxlength: [30, 'Максимальная длина поля `Профессия` - 30 символов'],
+      minlength: 2,
+      maxlength: 30,
       default: 'Исследователь',
     },
     avatar: {
@@ -27,13 +27,13 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, 'Поле `Email` обязательно для заполнения'],
+      required: true,
       unique: true,
       validate: [isEmail, 'Неверный формат Email'],
     },
     password: {
       type: String,
-      required: [true, 'Поле `Пароль` обязательно для заполнения'],
+      required: true,
       select: false,
     },
   },
@@ -57,4 +57,4 @@ userSchema.statics.findUserByCredentials = function (email, password) {
     });
 };
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = model('user', userSchema);

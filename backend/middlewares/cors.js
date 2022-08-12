@@ -2,7 +2,7 @@
 const allowedCors = [
   'https://vladimirfilippov.students.nomoredomains.sbs',
   'http://vladimirfilippov.students.nomoredomains.sbs',
-  'localhost:3000',
+  'http://localhost:3000',
 ];
 
 // eslint-disable-next-line consistent-return

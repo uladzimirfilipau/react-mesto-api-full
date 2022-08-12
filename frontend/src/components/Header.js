@@ -8,14 +8,14 @@ function Header({ email, onSignOut }) {
       <img src={headerLogo} alt='Логотип Место' className='header__logo' />
 
       <Switch>
-        <Route path='/sign-in'>
-          <Link to='/sign-up' className='header__link'>
+        <Route path='/signin'>
+          <Link to='/signup' className='header__link'>
             Регистрация
           </Link>
         </Route>
 
-        <Route path='/sign-up'>
-          <Link to='/sign-in' className='header__link'>
+        <Route path='/signup'>
+          <Link to='/signin' className='header__link'>
             Войти
           </Link>
         </Route>
@@ -23,7 +23,9 @@ function Header({ email, onSignOut }) {
         <Route exact path='/'>
           <ul className='header__menu'>
             <li className='header__email'>{email}</li>
-            <li className='header__link' onClick={onSignOut}>Выйти</li>
+            <li className='header__link' onClick={onSignOut}>
+              Выйти
+            </li>
           </ul>
         </Route>
       </Switch>

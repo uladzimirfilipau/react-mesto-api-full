@@ -31,7 +31,7 @@ function Register({ onRegister }) {
     >
       <p className='form__caption'>
         Уже зарегистрированы?&nbsp;
-        <Link to='sign-in' className='form__link'>
+        <Link to='signin' className='form__link'>
           Войти
         </Link>
       </p>

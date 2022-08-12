@@ -12,13 +12,13 @@ class Api {
   }
 
   getProfileData() {
-    return fetch(`${this._url}users/me`, {
+    return fetch(`${this._url}/users/me`, {
       headers: this._headers,
     }).then(this._getRes);
   }
 
   getInitialCards() {
-    return fetch(`${this._url}cards`, {
+    return fetch(`${this._url}/cards`, {
       headers: this._headers,
     }).then(this._getRes);
   }
@@ -27,40 +27,40 @@ class Api {
     return Promise.all([this.getProfileData(), this.getInitialCards()]);
   }
 
-  editProfileAvatar(data) {
-    return fetch(`${this._url}users/me/avatar`, {
+  editProfileAvatar({ avatar }) {
+    return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        avatar: data.avatar,
+        avatar,
       }),
     }).then(this._getRes);
   }
 
-  editProfileInfo(data) {
-    return fetch(`${this._url}users/me`, {
+  editProfileInfo({ name, about }) {
+    return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        about: data.about,
+        name,
+        about,
       }),
     }).then(this._getRes);
   }
 
-  addCard(data) {
-    return fetch(`${this._url}cards`, {
+  addCard({ name, link }) {
+    return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        link: data.link,
+        name,
+        link,
       }),
     }).then(this._getRes);
   }
 
-  deleteCard(_id) {
-    return fetch(`${this._url}cards/${_id}`, {
+  deleteCard(cardId) {
+    return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers,
     }).then(this._getRes);
@@ -68,17 +68,29 @@ class Api {
 
   changeLikeCardStatus(cardId, like) {
     const methodName = like ? 'PUT' : 'DELETE';
-    return fetch(`${this._url}cards/${cardId}/likes`, {
+    return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: methodName,
       headers: this._headers,
     }).then(this._getRes);
   }
 }
 
+let url = '';
+const { NODE_ENV } = process.env;
+if ( NODE_ENV === 'production' ) {
+  url = 'https://api.vladimirfilippov.students.nomoredomains.sbs';
+} else {
+  url = 'http://localhost:3001';
+}
+
+const token = localStorage.getItem('jwt');
+
 const api = new Api({
-  url: 'https://vladimirfilippov.students.nomoredomains.sbs/',
+  url: url,
   headers: {
+    // 'Accept': 'application/json',
     'Content-Type': 'application/json',
+    'authorization': `Bearer ${token}`,
   },
 });
 

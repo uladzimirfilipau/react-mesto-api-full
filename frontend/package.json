@@ -1,6 +1,7 @@
 {
   "name": "react-mesto-frontend",
   "version": "1.0.0",
+  "private": true,
   "homepage": "https://vladimirfilippov.students.nomoredomains.sbs/",
   "devDependencies": {
     "react-scripts": "^5.0.1"
@@ -20,8 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "react-scripts build",
-    "deploy": "gh-pages -d build",
-    "depsev": "npm run build && scp -r ./build/* vladimirfilippov@51.250.22.192:/home/vladimirfilippov/mesto-frontend"
+    "deploy": "npm run build && scp -r ./build/* vladimirfilippov@51.250.22.192:/home/vladimirfilippov/mesto-frontend"
   },
   "eslintConfig": {
     "extends": [
