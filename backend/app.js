@@ -1,7 +1,8 @@
-const express = require('express');
 require('dotenv').config();
-const bodyParser = require('body-parser');
+const express = require('express');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cors = require('./middlewares/cors');
 
@@ -16,27 +17,21 @@ const NotFoundError = require('./errors/NotFoundError');
 const { validateCreateUser, validateLogin } = require('./middlewares/validate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors);
 
-mongoose.connect(mongoDB, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-});
+app.use(helmet());
+app.use(bodyParser.json());
 
 app.use(requestLogger);
 
-// app.get('/crash-test', () => {
-//   setTimeout(() => {
-//     throw new Error('Сервер сейчас упадёт');
-//   }, 0);
-// });
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signup', validateCreateUser, createUser);
 app.post('/signin', validateLogin, login);
@@ -55,4 +50,14 @@ app.use(errors());
 
 app.use(handleError);
 
-app.listen(PORT);
+mongoose.connect(mongoDB, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
+
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server listen port: ${PORT}`);
+});

@@ -42,18 +42,19 @@ function App() {
     if (jwt) {
       auth
         .checkToken(jwt)
-        .then(({ data }) => {
+        .then((data) => {
           const { email } = data;
-          setEmail(email);
           setLoggedIn(true);
+          setEmail(email);
           history.push('/');
         })
         .catch(handleError);
     }
   }, [history]);
 
-  // GET DATA
+  // GET INITIAL DATA
   useEffect(() => {
+    if (loggedIn) {
     api
       .getInitialData()
       .then((data) => {
@@ -62,7 +63,8 @@ function App() {
         setCards(cardsData);
       })
       .catch(handleError);
-  }, []);
+    }
+  }, [loggedIn]);
 
   // HANDLE CLOSE
   useEffect(() => {
@@ -89,9 +91,9 @@ function App() {
   }, []);
 
   // REGISTER
-  function handleRegister(data) {
+  function handleRegister({ email, password }) {
     auth
-      .register(data)
+      .register({ email, password })
       .then((res) => {
         if (res) {
           setLoggedIn(true);
@@ -115,7 +117,10 @@ function App() {
         setEmail(email);
         history.push('/');
       })
-      .catch(handleError);
+      .catch(() => {
+        setLoggedIn(false);
+        setIsInfoTooltipOpen(true);
+      });
   }
 
   // SIGNOUT
@@ -148,14 +153,25 @@ function App() {
     setCardId(card._id);
   }
 
+  // ADD CARD
+  function handleAddPlaceSubmit({ name, link }) {
+    api
+      .addCard({ name, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch(handleError);
+  }
+  
   // CARD LIKE
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+        setCards((state) => state.map(c => c._id === card._id ? newCard : c));
       })
       .catch(handleError);
   }
@@ -182,22 +198,11 @@ function App() {
   }
 
   // UPDATE AVATAR
-  function handleUpdateAvatar(data) {
+  function handleUpdateAvatar({ avatar }) {
     api
-      .editProfileAvatar(data)
-      .then((newData) => {
-        setCurrentUser(newData);
-        closeAllPopups();
-      })
-      .catch(handleError);
-  }
-
-  // ADD PLACE
-  function handleAddPlaceSubmit(data) {
-    api
-      .addCard(data)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
+      .editProfileAvatar({ avatar })
+      .then((newAvatar) => {
+        setCurrentUser(newAvatar);
         closeAllPopups();
       })
       .catch(handleError);

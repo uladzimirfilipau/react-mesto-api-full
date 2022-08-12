@@ -27,40 +27,40 @@ class Api {
     return Promise.all([this.getProfileData(), this.getInitialCards()]);
   }
 
-  editProfileAvatar(data) {
+  editProfileAvatar({ avatar }) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        avatar: data.avatar,
+        avatar,
       }),
     }).then(this._getRes);
   }
 
-  editProfileInfo(data) {
+  editProfileInfo({ name, about }) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        about: data.about,
+        name,
+        about,
       }),
     }).then(this._getRes);
   }
 
-  addCard(data) {
+  addCard({ name, link }) {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        link: data.link,
+        name,
+        link,
       }),
     }).then(this._getRes);
   }
 
-  deleteCard(_id) {
-    return fetch(`${this._url}/cards/${_id}`, {
+  deleteCard(cardId) {
+    return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers,
     }).then(this._getRes);
@@ -75,10 +75,22 @@ class Api {
   }
 }
 
+let url = '';
+const { NODE_ENV } = process.env;
+if ( NODE_ENV === 'production' ) {
+  url = 'https://api.vladimirfilippov.students.nomoredomains.sbs';
+} else {
+  url = 'http://localhost:3001';
+}
+
+const token = localStorage.getItem('jwt');
+
 const api = new Api({
-  url: 'https://vladimirfilippov.students.nomoredomains.sbs',
+  url: url,
   headers: {
+    // 'Accept': 'application/json',
     'Content-Type': 'application/json',
+    'authorization': `Bearer ${token}`,
   },
 });
 
