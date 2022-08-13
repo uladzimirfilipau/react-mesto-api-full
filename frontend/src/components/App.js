@@ -37,13 +37,12 @@ function App() {
 
   // CHECK TOKEN
   useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
 
-    if (jwt) {
+    if (token) {
       auth
-        .checkToken(jwt)
-        .then((data) => {
-          const { email } = data;
+        .checkToken(token)
+        .then(({ email }) => {
           setLoggedIn(true);
           setEmail(email);
           history.push('/');
@@ -57,8 +56,7 @@ function App() {
     if (loggedIn) {
     api
       .getInitialData()
-      .then((data) => {
-        const [profileData, cardsData] = data;
+      .then(([profileData, cardsData]) => {
         setCurrentUser(profileData);
         setCards(cardsData);
       })
@@ -94,12 +92,10 @@ function App() {
   function handleRegister({ email, password }) {
     auth
       .register({ email, password })
-      .then((res) => {
-        if (res) {
+      .then(() => {
           setLoggedIn(true);
           setIsInfoTooltipOpen(true);
           history.push('/signin');
-        }
       })
       .catch(() => {
         setLoggedIn(false);
@@ -112,8 +108,8 @@ function App() {
     auth
       .authorize({ email, password })
       .then(({ token }) => {
-        localStorage.setItem('jwt', token);
         setLoggedIn(true);
+        localStorage.setItem('jwt', token);
         setEmail(email);
         history.push('/');
       })

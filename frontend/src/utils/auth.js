@@ -9,7 +9,6 @@ if ( NODE_ENV === 'production' ) {
 const getResponse = (res) => {
   if (res.ok) {
     return res.json();
-
   }
   return Promise.reject(`Ошибка HTTP: ${res.status}`);
 };
@@ -39,8 +38,9 @@ export const checkToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
+      'Accept': "application/json",
       'Content-Type': 'application/json',
-      'authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
     },
   })
   .then(getResponse);

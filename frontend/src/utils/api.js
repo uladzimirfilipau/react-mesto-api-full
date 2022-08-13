@@ -1,7 +1,6 @@
 class Api {
-  constructor({ url, headers }) {
+  constructor({ url }) {
     this._url = url;
-    this._headers = headers;
   }
 
   _getRes(res) {
@@ -11,26 +10,26 @@ class Api {
     return Promise.reject(`Ошибка HTTP: ${res.status}`);
   }
 
+  getInitialData() {
+    return Promise.all([this.getProfileData(), this.getInitialCards()]);
+  }
+
   getProfileData() {
     return fetch(`${this._url}/users/me`, {
-      headers: this._headers,
+      headers: getHeaders()
     }).then(this._getRes);
   }
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
-      headers: this._headers,
+      headers: getHeaders()
     }).then(this._getRes);
-  }
-
-  getInitialData() {
-    return Promise.all([this.getProfileData(), this.getInitialCards()]);
   }
 
   editProfileAvatar({ avatar }) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: getHeaders(),
       body: JSON.stringify({
         avatar,
       }),
@@ -40,7 +39,7 @@ class Api {
   editProfileInfo({ name, about }) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: getHeaders(),
       body: JSON.stringify({
         name,
         about,
@@ -51,7 +50,7 @@ class Api {
   addCard({ name, link }) {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: getHeaders(),
       body: JSON.stringify({
         name,
         link,
@@ -62,7 +61,7 @@ class Api {
   deleteCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: getHeaders()
     }).then(this._getRes);
   }
 
@@ -70,7 +69,7 @@ class Api {
     const methodName = like ? 'PUT' : 'DELETE';
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: methodName,
-      headers: this._headers,
+      headers: getHeaders()
     }).then(this._getRes);
   }
 }
@@ -83,15 +82,16 @@ if ( NODE_ENV === 'production' ) {
   url = 'http://localhost:3001';
 }
 
-const token = localStorage.getItem('jwt');
+const getHeaders = () => {
+  return {
+    'Accept': "application/json",
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+  }
+}
 
 const api = new Api({
   url: url,
-  headers: {
-    // 'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'authorization': `Bearer ${token}`,
-  },
 });
 
 export default api;

@@ -21,7 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "react-scripts build",
-    "deploy": "npm run build && scp -r ./build/* vladimirfilippov@51.250.22.192:/home/vladimirfilippov/mesto-frontend"
+    "deploy": "npm run build && scp -r ./build/* vova@51.250.101.206:/home/vova/frontend"
   },
   "eslintConfig": {
     "extends": [
