@@ -8,7 +8,6 @@
 * Сбор логов
 * Ссылки
 
-
 **Функциональность проекта**
 - регистрация и авторизация пользователей,
 - редактирование профиля,
@@ -41,4 +40,4 @@
 
 Ссылка на сайт, размещенный на Яндекс.Облаке: [https://vladimirfilippov.students.nomoredomains.sbs/](https://vladimirfilippov.students.nomoredomains.sbs/)  
 
-Сертификат выпущен и активен. Это можно проверить по ссылке: https://www.sslshopper.com/ssl-checker.html  
+Сертификат выпущен и активен. Это можно проверить по ссылке: https://www.sslshopper.com/ssl-checker.html
