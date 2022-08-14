@@ -2,12 +2,6 @@
 
 ## **Репозиторий для приложения проекта `Mesto`, включающий фронтенд и бэкенд приложения.**  
 
-### **Обзор**
-* Функциональность проекта
-* Технологии
-* Сбор логов
-* Ссылки
-
 **Функциональность проекта**
 - регистрация и авторизация пользователей,
 - редактирование профиля,
@@ -31,13 +25,8 @@
 - Все ошибки записываются в файл error.log;
 - Файлы логов не добавляются в репозиторий.
 
-
-
 **Ссылки**  
-Публичный IP-адрес сервера: `51.250.101.206`  
-
-Бэкенд [https://api.vladimirfilippov.students.nomoredomains.sbs/](https://api.vladimirfilippov.students.nomoredomains.sbs/)
-
-Ссылка на сайт, размещенный на Яндекс.Облаке: [https://vladimirfilippov.students.nomoredomains.sbs/](https://vladimirfilippov.students.nomoredomains.sbs/)  
-
-Сертификат выпущен и активен. Это можно проверить по ссылке: https://www.sslshopper.com/ssl-checker.html
+- Публичный IP-адрес сервера: `51.250.101.206`  
+- Бэкенд [https://api.vladimirfilippov.students.nomoredomains.sbs/](https://api.vladimirfilippov.students.nomoredomains.sbs/)
+- Ссылка на сайт, размещенный на Яндекс.Облаке: [https://vladimirfilippov.students.nomoredomains.sbs/](https://vladimirfilippov.students.nomoredomains.sbs/)  
+- Сертификат выпущен и активен. Это можно проверить по ссылке: https://www.sslshopper.com/ssl-checker.html
