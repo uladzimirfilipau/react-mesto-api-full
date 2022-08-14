@@ -13,18 +13,11 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.createUser = (req, res, next) => {
   const {
-    email,
-    password,
-    name,
-    about,
-    avatar,
+    email, password, name, about, avatar,
   } = req.body;
 
-  User.findOne({ email }).then((user) => {
-    if (user) {
-      next(new ConflictError('Пользователь с таким email уже существует'));
-    }
-    bcrypt.hash(password, saltRounds).then((hash) => {
+  bcrypt.hash(password, saltRounds)
+    .then((hash) => {
       User.create({
         name,
         about,
@@ -40,7 +33,9 @@ module.exports.createUser = (req, res, next) => {
           email: newUser.email,
         }))
         .catch((err) => {
-          if (err.name === 'ValidationError') {
+          if (err.code === 11000) {
+            next(new ConflictError('Пользователь с таким email уже существует'));
+          } else if (err.name === 'ValidationError') {
             next(
               new BadRequestError(
                 'Переданы некорректные данные `Имя`, `Профессия` или `Аватар` для создания профиля пользователя',
@@ -50,8 +45,8 @@ module.exports.createUser = (req, res, next) => {
             next(err);
           }
         });
-    });
-  });
+    })
+    .catch(next);
 };
 
 module.exports.login = (req, res, next) => {
@@ -64,12 +59,6 @@ module.exports.login = (req, res, next) => {
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
-      res.cookie('jwt', token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        sameSite: true,
-        secure: true,
-      });
       res.send({ token });
     })
     .catch(() => {

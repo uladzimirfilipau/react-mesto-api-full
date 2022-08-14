@@ -35,35 +35,6 @@ function App() {
   const [email, setEmail] = useState('');
   const history = useHistory();
 
-  // CHECK TOKEN
-  useEffect(() => {
-    const token = localStorage.getItem('jwt');
-
-    if (token) {
-      auth
-        .checkToken(token)
-        .then(({ email }) => {
-          setLoggedIn(true);
-          setEmail(email);
-          history.push('/');
-        })
-        .catch(handleError);
-    }
-  }, [history]);
-
-  // GET INITIAL DATA
-  useEffect(() => {
-    if (loggedIn) {
-    api
-      .getInitialData()
-      .then(([profileData, cardsData]) => {
-        setCurrentUser(profileData);
-        setCards(cardsData);
-      })
-      .catch(handleError);
-    }
-  }, [loggedIn]);
-
   // HANDLE CLOSE
   useEffect(() => {
     function handleEscClose(e) {
@@ -88,6 +59,33 @@ function App() {
     };
   }, []);
 
+  // CHECK TOKEN
+  useEffect(() => {
+    const token = localStorage.getItem('jwt');
+
+    if (token) {
+      auth
+        .checkToken(token)
+        .then(({ email }) => {
+          setLoggedIn(true);
+          setEmail(email);
+          history.push('/');
+        })
+        .catch(handleError);
+    }
+  }, [history]);
+
+  // GET INITIAL DATA
+  function getInitialData() {
+    api
+      .getInitialData()
+      .then(([profileData, cardsData]) => {
+        setCurrentUser(profileData);
+        setCards(cardsData);
+      })
+      .catch(handleError);
+    }
+
   // REGISTER
   function handleRegister({ email, password }) {
     auth
@@ -110,6 +108,7 @@ function App() {
       .then(({ token }) => {
         setLoggedIn(true);
         localStorage.setItem('jwt', token);
+        getInitialData()
         setEmail(email);
         history.push('/');
       })
@@ -125,28 +124,6 @@ function App() {
     setEmail('');
     setLoggedIn(false);
     history.push('/signin');
-  }
-
-  // OPEN POPUPS
-  function handleEditAvatarClick() {
-    setIsAvatarPopupOpen(true);
-  }
-
-  function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(true);
-  }
-
-  function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(true);
-  }
-
-  function handleCardClick(dataCard) {
-    setSelectedCard(dataCard);
-  }
-
-  function handleDeleteCardClick(card) {
-    setIsDeletePlacePopupOpen(true);
-    setCardId(card._id);
   }
 
   // ADD CARD
@@ -202,6 +179,28 @@ function App() {
         closeAllPopups();
       })
       .catch(handleError);
+  }
+  
+  // OPEN POPUPS
+  function handleEditAvatarClick() {
+    setIsAvatarPopupOpen(true);
+  }
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
+
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
+
+  function handleCardClick(dataCard) {
+    setSelectedCard(dataCard);
+  }
+
+  function handleDeleteCardClick(card) {
+    setIsDeletePlacePopupOpen(true);
+    setCardId(card._id);
   }
 
   // CLOSE POPUPS
