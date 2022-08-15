@@ -59,22 +59,6 @@ function App() {
     };
   }, []);
 
-  // CHECK TOKEN
-  useEffect(() => {
-    const token = localStorage.getItem('jwt');
-
-    if (token) {
-      auth
-        .checkToken(token)
-        .then(({ email }) => {
-          setLoggedIn(true);
-          setEmail(email);
-          history.push('/');
-        })
-        .catch(handleError);
-    }
-  }, [history]);
-
   // GET INITIAL DATA
   function getInitialData() {
     api
@@ -85,6 +69,23 @@ function App() {
       })
       .catch(handleError);
     }
+
+  // CHECK TOKEN
+  function checkToken() {
+    const token = localStorage.getItem('jwt');
+
+    if (token) {
+      auth
+        .checkToken(token)
+        .then(({ email }) => {
+          setLoggedIn(true);
+          setEmail(email);
+          getInitialData()
+          history.push('/');
+        })
+        .catch(handleError);
+    }
+  }
 
   // REGISTER
   function handleRegister({ email, password }) {
@@ -106,11 +107,8 @@ function App() {
     auth
       .authorize({ email, password })
       .then(({ token }) => {
-        setLoggedIn(true);
         localStorage.setItem('jwt', token);
-        getInitialData()
-        setEmail(email);
-        history.push('/');
+        checkToken();
       })
       .catch(() => {
         setLoggedIn(false);
