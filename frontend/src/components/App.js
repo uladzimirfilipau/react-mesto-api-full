@@ -35,6 +35,11 @@ function App() {
   const [email, setEmail] = useState('');
   const history = useHistory();
 
+  // useEffect(() => {
+  //   if (loggedIn)
+  //   checkToken();
+  // }, [checkToken, loggedIn]);
+
   // HANDLE CLOSE
   useEffect(() => {
     function handleEscClose(e) {
@@ -59,33 +64,28 @@ function App() {
     };
   }, []);
 
-  // GET INITIAL DATA
-  function getInitialData() {
-    api
-      .getInitialData()
-      .then(([profileData, cardsData]) => {
-        setCurrentUser(profileData);
-        setCards(cardsData);
-      })
-      .catch(handleError);
-    }
+// CHECK TOKEN
+useEffect(() => {
+  const jwt = localStorage.getItem('jwt');
 
-  // CHECK TOKEN
-  function checkToken() {
-    const token = localStorage.getItem('jwt');
-
-    if (token) {
-      auth
-        .checkToken(token)
-        .then(({ email }) => {
-          setLoggedIn(true);
-          setEmail(email);
-          getInitialData()
-          history.push('/');
-        })
-        .catch(handleError);
+  if (jwt) {
+    auth
+      .checkToken(jwt)
     }
+  }, []);
+
+// GET DATA
+useEffect(() => {
+  if (loggedIn) {
+  api
+    .getInitialData()
+    .then(([profileData, cardsData]) => {
+      setCurrentUser(profileData);
+      setCards(cardsData);
+    })
+    .catch(handleError);
   }
+}, [loggedIn]);
 
   // REGISTER
   function handleRegister({ email, password }) {
@@ -108,7 +108,9 @@ function App() {
       .authorize({ email, password })
       .then(({ token }) => {
         localStorage.setItem('jwt', token);
-        checkToken();
+        setLoggedIn(true);
+        setEmail(email);
+        history.push('/');
       })
       .catch(() => {
         setLoggedIn(false);
