@@ -35,11 +35,6 @@ function App() {
   const [email, setEmail] = useState('');
   const history = useHistory();
 
-  // useEffect(() => {
-  //   if (loggedIn)
-  //   checkToken();
-  // }, [checkToken, loggedIn]);
-
   // HANDLE CLOSE
   useEffect(() => {
     function handleEscClose(e) {
@@ -64,37 +59,46 @@ function App() {
     };
   }, []);
 
-// CHECK TOKEN
-useEffect(() => {
-  const jwt = localStorage.getItem('jwt');
-
-  if (jwt) {
-    auth
-      .checkToken(jwt)
+  // CHECK TOKEN
+  useEffect(() => {
+    function checkToken() {
+      const jwt = localStorage.getItem('jwt');
+    
+      if (jwt) {
+        auth
+          .checkToken(jwt)
+          .then(({ email }) => {
+            setEmail(email);
+            setLoggedIn(true);
+            getInitialData();
+            history.push('/');
+          })
+          .catch(handleError);
+      }
     }
-  }, []);
+  
+    checkToken();
+  }, [loggedIn, history]);
 
-// GET DATA
-useEffect(() => {
-  if (loggedIn) {
-  api
-    .getInitialData()
-    .then(([profileData, cardsData]) => {
-      setCurrentUser(profileData);
-      setCards(cardsData);
-    })
-    .catch(handleError);
+  // GET INITIAL DATA
+  function getInitialData() {
+    api
+      .getInitialData()
+      .then(([profileData, cardsData]) => {
+        setCurrentUser(profileData);
+        setCards(cardsData);
+      })
+      .catch(handleError);
   }
-}, [loggedIn]);
 
   // REGISTER
   function handleRegister({ email, password }) {
     auth
       .register({ email, password })
       .then(() => {
-          setLoggedIn(true);
-          setIsInfoTooltipOpen(true);
-          history.push('/signin');
+        setLoggedIn(true);
+        setIsInfoTooltipOpen(true);
+        history.push('/signin');
       })
       .catch(() => {
         setLoggedIn(false);
@@ -107,10 +111,11 @@ useEffect(() => {
     auth
       .authorize({ email, password })
       .then(({ token }) => {
+        if (token) {
         localStorage.setItem('jwt', token);
         setLoggedIn(true);
-        setEmail(email);
         history.push('/');
+        }
       })
       .catch(() => {
         setLoggedIn(false);
@@ -136,7 +141,7 @@ useEffect(() => {
       })
       .catch(handleError);
   }
-  
+
   // CARD LIKE
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i === currentUser._id);
@@ -180,7 +185,7 @@ useEffect(() => {
       })
       .catch(handleError);
   }
-  
+
   // OPEN POPUPS
   function handleEditAvatarClick() {
     setIsAvatarPopupOpen(true);
