@@ -1,6 +1,6 @@
 # **Проект Место(фронтенд+бэкенд)**
 
-## **Репозиторий для приложения проекта `Mesto`, включающий фронтенд и бэкенд приложения.**  
+## **«Реакт-проект» с аутентификацией пользователей.**  
 
 **Функциональность проекта**
 - регистрация и авторизация пользователей,
@@ -12,21 +12,16 @@
 **Технологии**  
 - HTML5
 - CCS3
+- БЭМ
+- Адаптивная верстка
 - JavaScript (стандарт ES6)
 - React
-- Адаптивная верстка
-- БЭМ
 - Webpack
-- Express
+- Node.js
 - MongodDB
 
-**Сбор логов**
-- Все запросы и ответы записываются в файл request.log;
-- Все ошибки записываются в файл error.log;
-- Файлы логов не добавляются в репозиторий.
-
-**Ссылки**  
-- Публичный IP-адрес сервера: `51.250.101.206`  
-- Бэкенд [https://api.vladimirfilippov.students.nomoredomains.sbs/](https://api.vladimirfilippov.students.nomoredomains.sbs/)
-- Ссылка на сайт, размещенный на Яндекс.Облаке: [https://vladimirfilippov.students.nomoredomains.sbs/](https://vladimirfilippov.students.nomoredomains.sbs/)  
-- Сертификат выпущен и активен. Это можно проверить по ссылке: https://www.sslshopper.com/ssl-checker.html
+**Запуск проекта**
+- Клонировать репозиторий `git clone https://github.com/uladzimirfilipau/react-mesto-api-full.git`
+- Установить зависимости в директориях frontend и backend с помощью команды `npm i`
+- Запустить frontend часть приложения на 3000 порту c помощью команды `npm start`
+- Запустить backend часть приложения на 3001 порту c помощью команды `npm start`
