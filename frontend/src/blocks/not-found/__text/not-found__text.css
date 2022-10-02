@@ -1,7 +1,6 @@
 .not-found__text {
   color: #fff;
   max-width: 400px;
-  font-size: 24px;
-  line-height: 28px;
-  margin-top: 24px;
+  font-size: 12px;
+  margin: 24px 0;
 }

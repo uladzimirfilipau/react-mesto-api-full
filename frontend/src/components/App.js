@@ -20,6 +20,7 @@ import * as auth from '../utils/auth';
 import Register from './Register';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
+import PageNotFound from './PageNotFound';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -63,7 +64,7 @@ function App() {
   useEffect(() => {
     function checkToken() {
       const jwt = localStorage.getItem('jwt');
-    
+
       if (jwt) {
         auth
           .checkToken(jwt)
@@ -76,7 +77,7 @@ function App() {
           .catch(handleError);
       }
     }
-  
+
     checkToken();
   }, [loggedIn, history]);
 
@@ -245,6 +246,8 @@ function App() {
           <Route path='/signin'>
             <Login onLogin={handleLogin} />
           </Route>
+
+          <Route path='*' component={PageNotFound} />
 
           <Route>{loggedIn ? <Redirect to='/' /> : <Redirect to='/signup' />}</Route>
         </Switch>

@@ -1,0 +1,28 @@
+.not-found__link {
+  min-width: 260px;
+  height: 46px;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background-color: #fff;
+
+  transition: opacity 0.3s linear;
+}
+
+@media screen and (min-width: 768px) {
+  .not-found__link {
+    min-width: 320px;
+    min-height: 50px;
+  }
+}
+
+.not-found__link:hover {
+  opacity: 0.85;
+}

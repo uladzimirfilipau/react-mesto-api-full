@@ -85,3 +85,8 @@
 @import url(../src/blocks/form/__submit-button/form__submit-button.css);
 @import url(../src/blocks/form/__caption/form__caption.css);
 @import url(../src/blocks/form/__link/form__link.css);
+/* NOT FOUND*/
+@import url(../src/blocks/not-found/not-found.css);
+@import url(../src/blocks/not-found/__title/not-found__title.css);
+@import url(../src/blocks/not-found/__text/not-found__text.css);
+@import url(../src/blocks/not-found/__link/not-found__link.css);

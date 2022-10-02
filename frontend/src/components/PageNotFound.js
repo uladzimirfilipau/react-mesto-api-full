@@ -5,14 +5,17 @@ function PageNotFound() {
   return (
     <div className='not-found'>
       <h3 className='not-found__title'>
-        <span>404</span> - Страница по вашему запросу не найдена
+        <span>404</span>Страница по&nbsp;вашему запросу не&nbsp;найдена
       </h3>
-      <Link className='button button_type_to-main' to='signup' replace>
-        Зарегестрируйтесь
+
+      <Link className='not-found__link' to='signup'>
+        Зарегистрируйтесь
       </Link>
+
       <p className='not-found__text'>или</p>
-      <Link className='button button_type_to-main' to='signin' replace>
-        Войдите
+
+      <Link className='not-found__link' to='signin'>
+        Войдите в аккаунт
       </Link>
     </div>
   );
