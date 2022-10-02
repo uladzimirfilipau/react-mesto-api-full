@@ -10,15 +10,7 @@
 - просмотр фотографии в большом размере.
 
 **Технологии**  
-- HTML5
-- CCS3
-- БЭМ
-- Адаптивная верстка
-- JavaScript (стандарт ES6)
-- React
-- Webpack
-- Node.js
-- MongodDB
+`HTML5` `CCS3` `БЭМ` `Адаптивная верстка` `JavaScript(стандарт ES6)` `React` `Webpack` `Node.js` `MongodDB`
 
 **Запуск проекта**
 - Клонировать репозиторий `git clone https://github.com/uladzimirfilipau/react-mesto-api-full.git`
