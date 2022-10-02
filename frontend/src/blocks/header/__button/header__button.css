@@ -1,0 +1,40 @@
+.header__button {
+  width: 24px;
+  height: 21px;
+  position: relative;
+
+  border: none;
+  background-color: transparent;
+}
+
+@media screen and (min-width: 768px) {
+  .header__button {
+    display: none;
+  }
+}
+
+.header__button::before {
+  content: '';
+  position: absolute;
+  top: 0px;
+  width: 24px;
+  height: 3px;
+  background-color: #fff;
+}
+
+.header__button span {
+  position: absolute;
+  top: 9px;
+  width: 24px;
+  height: 3px;
+  background-color: #fff;
+}
+
+.header__button::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  width: 24px;
+  height: 3px;
+  background-color: #fff;
+}

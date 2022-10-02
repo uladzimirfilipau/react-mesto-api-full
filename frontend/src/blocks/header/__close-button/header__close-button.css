@@ -1,0 +1,13 @@
+.header__close-button {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+  background-image: url(../../../images/close-icon.svg);
+}
+
+@media screen and (min-width: 768px) {
+  .header__close-button {
+    display: none;
+  }
+}

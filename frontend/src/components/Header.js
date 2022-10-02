@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import headerLogo from '../images/logo.svg';
 
-function Header({ email, onSignOut }) {
+function Header({ email, handleMenuOpen, isOpen, onClose, onSignOut }) {
   return (
     <header className='header'>
       <img src={headerLogo} alt='Логотип Место' className='header__logo' />
@@ -27,6 +27,23 @@ function Header({ email, onSignOut }) {
               Выйти
             </li>
           </ul>
+
+          {
+            isOpen
+              ?
+                <button
+                  type='button'
+                  className='header__close-button'
+                  onClick={onClose}>
+                </button>
+              :
+                <button
+                  type='button'
+                  className='header__button'
+                  onClick={handleMenuOpen}>
+                  <span></span>
+                </button>
+            }
         </Route>
       </Switch>
     </header>
