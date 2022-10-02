@@ -2,10 +2,10 @@ import React from 'react';
 import iconApprove from '../../images/icon-approve.svg';
 import iconReject from '../../images/icon-reject.svg';
 
-function InfoTooltip({ state, name, isOpen, onClose }) {
+function InfoTooltip({ name, isInfoTooltipOpen, onClose }) {
 
   return (
-    <section className={`popup popup_${name} ${isOpen && 'popup_opened'}`}>
+    <section className={`popup popup_${name} ${isInfoTooltipOpen.open && 'popup_opened'}`}>
       <div className='popup__content'>
         <button
           type='button'
@@ -14,18 +14,12 @@ function InfoTooltip({ state, name, isOpen, onClose }) {
           onClick={onClose}
         />
 
-        <img 
-          className='popup__icon' 
-          src={state ? iconApprove : iconReject} 
+        <img
+          className='popup__icon'
+          src={isInfoTooltipOpen.success ? iconApprove : iconReject}
           alt='#' />
 
-        <p className='popup__text'>
-          {
-            state 
-            ? 'Вы успешно зарегистрировались!'
-            : 'Что-то пошло не так! Попробуйте ещё раз.'
-          }
-        </p>
+        <p className='popup__text'>{isInfoTooltipOpen.message}</p>
       </div>
     </section>
   );

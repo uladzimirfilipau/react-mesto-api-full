@@ -14,7 +14,13 @@ import DeletePlacePopup from './popups/DeletePlacePopup';
 import InfoTooltip from './popups/InfoTooltip';
 
 import api from '../utils/api.js';
-import handleError from '../utils/utils.js';
+import {
+  handleError,
+  SUCCESS_REGISTER,
+  SOMETHING_WRONG,
+  CARD_DELETE,
+  ERROR_DELETE,
+} from '../utils/consts.js';
 import * as auth from '../utils/auth';
 
 import Register from './Register';
@@ -29,7 +35,11 @@ function App() {
   const [isEditAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState({
+    open: null,
+    message: '',
+    success: null,
+  });
   const [isDeletePlacePopupOpen, setIsDeletePlacePopupOpen] = useState(false);
   const [cardId, setCardId] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
@@ -62,7 +72,6 @@ function App() {
 
   // CHECK TOKEN
   useEffect(() => {
-    function checkToken() {
       const jwt = localStorage.getItem('jwt');
 
       if (jwt) {
@@ -75,10 +84,7 @@ function App() {
             history.push('/');
           })
           .catch(handleError);
-      }
     }
-
-    checkToken();
   }, [loggedIn, history]);
 
   // GET INITIAL DATA
@@ -98,12 +104,20 @@ function App() {
       .register({ email, password })
       .then(() => {
         setLoggedIn(true);
-        setIsInfoTooltipOpen(true);
+        setIsInfoTooltipOpen({
+          open: true,
+          message: SUCCESS_REGISTER,
+          success: true,
+        });
         history.push('/signin');
       })
       .catch(() => {
         setLoggedIn(false);
-        setIsInfoTooltipOpen(true);
+        setIsInfoTooltipOpen({
+          open: true,
+          message: SOMETHING_WRONG,
+          success: false,
+        });
       });
   }
 
@@ -115,12 +129,18 @@ function App() {
         if (token) {
         localStorage.setItem('jwt', token);
         setLoggedIn(true);
+        setEmail(email);
+        getInitialData();
         history.push('/');
         }
       })
       .catch(() => {
         setLoggedIn(false);
-        setIsInfoTooltipOpen(true);
+        setIsInfoTooltipOpen({
+          open: true,
+          message: SOMETHING_WRONG,
+          success: false,
+        });
       });
   }
 
@@ -161,8 +181,24 @@ function App() {
       .deleteCard(cardId)
       .then(() => {
         setCards((cards) => cards.filter((c) => c._id !== cardId && c));
+        setIsInfoTooltipOpen({
+          open: true,
+          message: CARD_DELETE,
+          success: true,
+        });
       })
-      .catch(handleError);
+      .catch((err) => {
+        if (err.includes(403)) {
+          setIsInfoTooltipOpen({
+            open: true,
+            message: ERROR_DELETE,
+            success: false,
+          });
+        } else {
+          handleError();
+        }
+      });
+
   }
 
   // UPDATE USERDATA
@@ -255,8 +291,7 @@ function App() {
 
         <InfoTooltip
           name={'info'}
-          isOpen={isInfoTooltipOpen}
-          state={loggedIn}
+          isInfoTooltipOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
         />
 
