@@ -12,7 +12,7 @@ const mongoDB = 'mongodb://localhost:27017/mestodb';
 const handleError = require('./errors/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
 
 app.use(cors);
@@ -35,7 +35,4 @@ mongoose.connect(mongoDB, {
   useFindAndModify: false,
 });
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server listen port: ${PORT}`);
-});
+app.listen(PORT);
