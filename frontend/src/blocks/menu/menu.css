@@ -1,0 +1,11 @@
+.menu {
+  list-style-type: none;
+  padding: 40px 0;
+  margin: 0;
+
+  display: none;
+  justify-items: center;
+  gap: 18px;
+
+  transition: all 0.4s;
+}

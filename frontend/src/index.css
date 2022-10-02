@@ -92,3 +92,8 @@
 @import url(../src/blocks/not-found/__title/not-found__title.css);
 @import url(../src/blocks/not-found/__text/not-found__text.css);
 @import url(../src/blocks/not-found/__link/not-found__link.css);
+/* MENU */
+@import url(../src/blocks/menu/menu.css);
+@import url(../src/blocks/menu/_opened/menu_opened.css);
+@import url(../src/blocks/menu/__email/menu__email.css);
+@import url(../src/blocks/menu/__link/menu__link.css);

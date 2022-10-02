@@ -1,0 +1,11 @@
+.menu_opened {
+  display: grid;
+
+  transition: all 0.4s;
+}
+
+@media screen and (min-width: 768px) {
+  .menu_opened {
+    display: none;
+  }
+}

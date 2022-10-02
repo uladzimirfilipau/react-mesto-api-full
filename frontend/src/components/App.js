@@ -12,6 +12,7 @@ import EditProfilePopup from './popups/EditProfilePopup';
 import AddPlacePopup from './popups/AddPlacePopup';
 import DeletePlacePopup from './popups/DeletePlacePopup';
 import InfoTooltip from './popups/InfoTooltip';
+import Menu from './popups/Menu';
 
 import api from '../utils/api.js';
 import {
@@ -44,6 +45,7 @@ function App() {
   const [cardId, setCardId] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const history = useHistory();
 
   // HANDLE CLOSE
@@ -245,6 +247,10 @@ function App() {
     setCardId(card._id);
   }
 
+  function handleMenuOpen() {
+    setIsMenuOpen(true);
+  }
+
   // CLOSE POPUPS
   function closeAllPopups() {
     setIsAvatarPopupOpen(false);
@@ -253,12 +259,25 @@ function App() {
     setSelectedCard(null);
     setIsInfoTooltipOpen(false);
     setIsDeletePlacePopupOpen(false);
+    setIsMenuOpen(false);
   }
 
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <Header email={email} onSignOut={handleSignOut} />
+        <Menu
+          isOpen={isMenuOpen}
+          email={email}
+          onSignOut={handleSignOut}
+        />
+
+        <Header
+          email={email}
+          handleMenuOpen={handleMenuOpen}
+          isOpen={isMenuOpen}
+          onSignOut={handleSignOut}
+          onClose={closeAllPopups}
+        />
 
         <Switch>
           <ProtectedRoute
