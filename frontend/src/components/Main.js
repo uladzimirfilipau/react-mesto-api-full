@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext } from 'react';
 import editAvatar from '../images/edit-avatar.png';
 import Card from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -12,11 +12,10 @@ function Main({
   onCardLike,
   onCardDelete,
 }) {
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <main className='content'>
-      {/* PROFILE */}
       <section className='profile'>
         <div className='profile__avatar-container'>
           <img
@@ -44,9 +43,8 @@ function Main({
           onClick={onAddPlace}
         />
       </section>
-      {/* ELEMENTS */}
+
       <section className='elements' aria-label='Карточки'>
-        {/* ADD CARD CONTAINER */}
         <ul className='elements__list'>
           {cards.map((card) => (
             <Card

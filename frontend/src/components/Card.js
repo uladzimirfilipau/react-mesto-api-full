@@ -1,9 +1,9 @@
-import React from 'react';
+import { useContext } from 'react';
 import deleteButton from '../images/button-delete.svg';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card({ card, onCardLike, onCardDelete, onCardClick }) {
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   const isOwn = card.owner._id === currentUser._id;
   const cardDeleteButtonClassName = `elements__button-delete ${isOwn && 'elements__button-delete_visible'}`;

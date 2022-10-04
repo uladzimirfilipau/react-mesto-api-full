@@ -28,22 +28,13 @@ function Header({ email, handleMenuOpen, isOpen, onClose, onSignOut }) {
             </li>
           </ul>
 
-          {
-            isOpen
-              ?
-                <button
-                  type='button'
-                  className='header__close-button'
-                  onClick={onClose}>
-                </button>
-              :
-                <button
-                  type='button'
-                  className='header__button'
-                  onClick={handleMenuOpen}>
-                  <span></span>
-                </button>
-            }
+          {isOpen ? (
+            <button type='button' className='header__close-button' onClick={onClose}></button>
+          ) : (
+            <button type='button' className='header__button' onClick={handleMenuOpen}>
+              <span></span>
+            </button>
+          )}
         </Route>
       </Switch>
     </header>

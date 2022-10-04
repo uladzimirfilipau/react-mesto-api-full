@@ -5,6 +5,9 @@
 root = true
 
 [*]
+quote_type = single
+trailing_comma = all
+
 # Indentation style
 # Possible values - tab, space
 indent_style = space

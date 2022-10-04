@@ -10,7 +10,7 @@ function OnEscClose(onEscape) {
     }
     document.addEventListener('keydown', handleEscClose);
     return () => document.removeEventListener('keydown', handleEscClose);
-  }, []);
+  }, [onEscape]);
 }
 
 export default OnEscClose;
