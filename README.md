@@ -1,19 +1,20 @@
-# **Проект Место(фронтенд+бэкенд)**
+# **Project Mesto(frontend+backend)**
 
-## **«Реакт-проект» с аутентификацией пользователей.**  
+## **"React project" with user authentication.**  
 
-**Функциональность проекта**
-- регистрация и авторизация пользователей,
-- редактирование профиля,
-- добавление/удаление карточки,
-- постановка и снятие лайка карточкам,
-- просмотр фотографии в большом размере.
+**Project functionality**
+- registration and authorization of users
+- profile editing
+- adding/removing a card
+- setting/removing cards likes
+- view photos in large size
 
-**Технологии**  
-`HTML5` `CCS3` `БЭМ` `Адаптивная верстка` `React` `Express.js` `MongodDB`
+**Technology**  
+`HTML5` `CCS3` `BEM` `Adaptive layout` `React` `Express.js` `MongoDB`
 
-**Запуск проекта**
-- Клонировать репозиторий `git clone https://github.com/uladzimirfilipau/react-mesto-api-full.git`
-- Установить зависимости в директориях frontend и backend с помощью команды `npm i`
-- Запустить frontend c помощью команды `npm start`
-- Запустить backend c помощью команды `npm start`
+**Project launch**
+- To run the application, you must have Node JS and NPM installed  
+- Clone the `git clone' repository https://github.com/uladzimirfilipau/react-mesto-api-full.git `
+- Install dependencies in the frontend and backend directories using command `npm i` 
+- In the frontend directory, using the `npm start` command  
+- In the backend directory, using the `npm start` command  
