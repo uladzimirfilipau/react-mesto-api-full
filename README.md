@@ -1,6 +1,4 @@
-# **Project Mesto(frontend+backend)**
-
-## **"React project" with user authentication.**  
+# **"React project" with user authentication (frontend and backend)**
 
 **Project functionality**
 - registration and authorization of users
@@ -10,7 +8,7 @@
 - view photos in large size
 
 **Technology**  
-`HTML5` `CCS3` `BEM` `Adaptive layout` `React` `Express.js` `MongoDB`
+`HTML5` `CCS3` `BEM` `Adaptive layout` `React` `Node.js` `MongoDB`
 
 **Project launch**
 - To run the application, you must have Node JS and NPM installed  
