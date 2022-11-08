@@ -17,7 +17,8 @@ function InfoTooltip({ name, isInfoTooltipOpen, onClose }) {
         <img
           className='popup__icon'
           src={isInfoTooltipOpen.success ? iconApprove : iconReject}
-          alt='#' />
+          alt={isInfoTooltipOpen.success ? 'Успех' : 'Неудача'}
+        />
 
         <p className='popup__text'>{isInfoTooltipOpen.message}</p>
       </div>

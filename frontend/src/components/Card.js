@@ -1,14 +1,15 @@
 import { useContext } from 'react';
-import deleteButton from '../images/button-delete.svg';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card({ card, onCardLike, onCardDelete, onCardClick }) {
   const currentUser = useContext(CurrentUserContext);
 
   const isOwn = card.owner._id === currentUser._id;
-  const cardDeleteButtonClassName = `elements__button-delete ${isOwn && 'elements__button-delete_visible'}`;
+  const cardDeleteButtonClassName = `elements__button-delete ${
+    isOwn && 'elements__button-delete_visible'
+  }`;
 
-  const isLiked = card.likes.some(i => i === currentUser._id);
+  const isLiked = card.likes.some((i) => i === currentUser._id);
   const cardLikeButtonClassName = `elements__item-like ${isLiked && 'elements__item-like_active'}`;
 
   function handleCardClick() {
@@ -26,10 +27,10 @@ function Card({ card, onCardLike, onCardDelete, onCardClick }) {
   return (
     <li className='elements__item'>
       <figure className='elements__figure'>
-        <img
-          src={deleteButton}
-          alt='Удалить карточку'
+        <button
           className={cardDeleteButtonClassName}
+          type='button'
+          aria-label='Удалить карточку'
           onClick={handleDeleteClick}
         />
         <img
@@ -41,7 +42,7 @@ function Card({ card, onCardLike, onCardDelete, onCardClick }) {
         <figcaption className='elements__figure-caption'>
           <h2 className='elements__item-title'>{card.name}</h2>
           <div className='elements__like-container'>
-            <button className={cardLikeButtonClassName} onClick={handleLikeClick} />
+            <button className={cardLikeButtonClassName} type='button' onClick={handleLikeClick} />
             <span className='elements__like-number'>{card.likes.length}</span>
           </div>
         </figcaption>

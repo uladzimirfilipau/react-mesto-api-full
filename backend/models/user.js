@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const isEmail = require('validator/lib/isEmail');
 const isUrl = require('validator/lib/isURL');
 const AuthError = require('../errors/AuthError');
+const { WRONG_USERDATA, AVATAR_IMAGE } = require('../utils/const');
 
 const userSchema = new Schema(
   {
@@ -10,18 +11,17 @@ const userSchema = new Schema(
       type: String,
       minlength: 2,
       maxlength: 30,
-      default: 'Жак-Ив Кусто',
+      default: 'Введите имя',
     },
     about: {
       type: String,
       minlength: 2,
       maxlength: 30,
-      default: 'Исследователь',
+      default: 'Введите профессию',
     },
     avatar: {
       type: String,
-      default:
-        'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+      default: AVATAR_IMAGE,
       validate: [isUrl, 'Неверный формат ссылки'],
     },
     email: {
@@ -44,12 +44,12 @@ userSchema.statics.findUserByCredentials = function findUser(email, password) {
     .select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new AuthError('Неправильные почта или пароль'));
+        return Promise.reject(new AuthError(WRONG_USERDATA));
       }
 
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          return Promise.reject(new AuthError('Неправильные почта или пароль'));
+          return Promise.reject(new AuthError(WRONG_USERDATA));
         }
         return user;
       });

@@ -1,4 +1,4 @@
-.profile__avatar-edit {
+.profile__edit-button {
   width: 26px;
   height: 26px;
   padding: 47px;
@@ -8,7 +8,7 @@
   position: absolute;
 }
 
-.profile__avatar-edit:hover {
+.profile__edit-button:hover {
   opacity: 1;
   cursor: pointer;
 }

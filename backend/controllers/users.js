@@ -8,15 +8,24 @@ const BadRequestError = require('../errors/BadRequestError');
 const AuthError = require('../errors/AuthError');
 const ConflictError = require('../errors/ConflictError');
 
-const saltRounds = 10;
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET, SALT } = require('../utils/config');
 
-module.exports.createUser = (req, res, next) => {
+const {
+  WRONG_EMAIL,
+  WRONG_DATA,
+  WRONG_USERDATA,
+  USER_NOTFOUND,
+  DATA_NOT_UPDATE,
+  AVATAR_NOT_UPDATE,
+} = require('../utils/const');
+
+const createUser = (req, res, next) => {
   const {
     email, password, name, about, avatar,
   } = req.body;
 
-  bcrypt.hash(password, saltRounds)
+  bcrypt
+    .hash(password, SALT)
     .then((hash) => {
       User.create({
         name,
@@ -34,13 +43,9 @@ module.exports.createUser = (req, res, next) => {
         }))
         .catch((err) => {
           if (err.code === 11000) {
-            next(new ConflictError('Пользователь с таким email уже существует'));
+            next(new ConflictError(WRONG_EMAIL));
           } else if (err.name === 'ValidationError') {
-            next(
-              new BadRequestError(
-                'Переданы некорректные данные `Имя`, `Профессия` или `Аватар` для создания профиля пользователя',
-              ),
-            );
+            next(new BadRequestError(WRONG_DATA));
           } else {
             next(err);
           }
@@ -49,69 +54,87 @@ module.exports.createUser = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.login = (req, res, next) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
 
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        JWT_SECRET,
         { expiresIn: '7d' },
       );
       res.send({ token });
     })
     .catch(() => {
-      next(new AuthError('Неправильные почта или пароль'));
+      next(new AuthError(WRONG_USERDATA));
     });
 };
 
-module.exports.getUsers = (req, res, next) => {
+const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send(users))
     .catch(next);
 };
 
-module.exports.getUser = (req, res, next) => {
+const getUser = (req, res, next) => {
   User.findById(req.params.userId)
-    .orFail(() => next(new NotFoundError('Пользователь по указанному _id не найден')))
+    .orFail(() => next(new NotFoundError(USER_NOTFOUND)))
     .then((user) => res.send(user))
     .catch(next);
 };
 
-module.exports.getCurrentUser = (req, res, next) => {
+const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(() => next(new NotFoundError('Пользователь по указанному _id не найден')))
+    .orFail(() => next(new NotFoundError(USER_NOTFOUND)))
     .then((user) => res.send(user))
     .catch(next);
 };
 
-module.exports.updateUserInfo = (req, res, next) => {
+const updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
-    .orFail(() => next(new NotFoundError('Пользователь по указанному _id не найден')))
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, about },
+    { new: true, runValidators: true },
+  )
+    .orFail(() => next(new NotFoundError(USER_NOTFOUND)))
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные `Имя` или `Профессия` для обновления профиля пользователя'));
+        next(new BadRequestError(DATA_NOT_UPDATE));
       } else {
         next(err);
       }
     });
 };
 
-module.exports.updateAvatar = (req, res, next) => {
+const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
-    .orFail(() => next(new NotFoundError('Пользователь по указанному _id не найден')))
+  User.findByIdAndUpdate(
+    req.user._id,
+    { avatar },
+    { new: true, runValidators: true },
+  )
+    .orFail(() => next(new NotFoundError(USER_NOTFOUND)))
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные для обновления аватара'));
+        next(new BadRequestError(AVATAR_NOT_UPDATE));
       } else {
         next(err);
       }
     });
+};
+
+module.exports = {
+  createUser,
+  login,
+  getUsers,
+  getUser,
+  getCurrentUser,
+  updateUserInfo,
+  updateAvatar,
 };

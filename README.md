@@ -7,12 +7,11 @@
 - setting/removing cards likes
 - view photos in large size
 
-**Technology**  
+**Technology**
 `HTML5` `CCS3` `BEM` `Adaptive layout` `React` `Node.js` `MongoDB`
 
 **Project launch**
-- To run the application, you must have Node JS and NPM installed  
+- To run the application, you must have Node JS,NPM and Mongo installed
 - Clone the `git clone' repository https://github.com/uladzimirfilipau/react-mesto-api-full.git `
-- Install dependencies in the frontend and backend directories using command `npm i` 
-- In the frontend directory, using the `npm start` command  
-- In the backend directory, using the `npm start` command  
+- Install dependencies using command `npm i`
+- Use the `npm start` command to launch the project

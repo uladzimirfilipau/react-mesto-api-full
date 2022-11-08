@@ -21,7 +21,7 @@ function Main({
           <img
             src={editAvatar}
             alt='Обновить аватар'
-            className='profile__avatar-edit'
+            className='profile__edit-button'
             onClick={onEditAvatar}
           />
           <img src={currentUser.avatar} alt='Аватар пользователя' className='profile__avatar' />
@@ -37,9 +37,11 @@ function Main({
           </div>
           <p className='profile__subtitle'>{currentUser.about}</p>
         </div>
+
         <button
           aria-label='Добавить карточку'
           className='profile__button-add'
+          type='button'
           onClick={onAddPlace}
         />
       </section>

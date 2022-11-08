@@ -23,8 +23,3 @@
     margin: 216px auto 0;
   }
 }
-
-.form__submit-button:hover {
-  opacity: 0.85;
-  cursor: pointer;
-}

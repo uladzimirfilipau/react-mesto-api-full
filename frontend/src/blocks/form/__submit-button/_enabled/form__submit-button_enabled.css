@@ -1,0 +1,8 @@
+.form__submit-button_enabled {
+  background-color: #fff;
+}
+
+.form__submit-button_enabled:hover {
+  opacity: 0.85;
+  cursor: pointer;
+}
