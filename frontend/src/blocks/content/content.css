@@ -1,6 +1,8 @@
 .content {
   max-width: 880px;
+  width: 100%;
   padding: 42px 19px 0;
+  box-sizing: border-box;
   margin: 0 auto;
 }
 

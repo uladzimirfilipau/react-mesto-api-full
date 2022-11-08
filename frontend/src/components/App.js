@@ -37,7 +37,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState({
-    open: null,
+    open: false,
     message: '',
     success: null,
   });
@@ -48,7 +48,6 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const history = useHistory();
 
-  // HANDLE CLOSE
   useEffect(() => {
     function handleEscClose(e) {
       const ESC_CODE = 'Escape';
@@ -72,24 +71,22 @@ function App() {
     };
   }, []);
 
-  // CHECK TOKEN
   useEffect(() => {
-      const jwt = localStorage.getItem('jwt');
+    const jwt = localStorage.getItem('jwt');
 
-      if (jwt) {
-        auth
-          .checkToken(jwt)
-          .then(({ email }) => {
-            setEmail(email);
-            setLoggedIn(true);
-            getInitialData();
-            history.push('/');
-          })
-          .catch(handleError);
+    if (jwt) {
+      auth
+        .checkToken(jwt)
+        .then(({ email }) => {
+          setEmail(email);
+          setLoggedIn(true);
+          getInitialData();
+          history.push('/');
+        })
+        .catch(handleError);
     }
   }, [loggedIn, history]);
 
-  // GET INITIAL DATA
   function getInitialData() {
     api
       .getInitialData()
@@ -100,7 +97,6 @@ function App() {
       .catch(handleError);
   }
 
-  // REGISTER
   function handleRegister({ email, password }) {
     auth
       .register({ email, password })
@@ -123,17 +119,16 @@ function App() {
       });
   }
 
-  // LOGIN
   function handleLogin({ email, password }) {
     auth
       .authorize({ email, password })
       .then(({ token }) => {
         if (token) {
-        localStorage.setItem('jwt', token);
-        setLoggedIn(true);
-        setEmail(email);
-        getInitialData();
-        history.push('/');
+          localStorage.setItem('jwt', token);
+          setLoggedIn(true);
+          setEmail(email);
+          getInitialData();
+          history.push('/');
         }
       })
       .catch(() => {
@@ -146,7 +141,6 @@ function App() {
       });
   }
 
-  // SIGNOUT
   function handleSignOut() {
     localStorage.removeItem('jwt');
     setEmail('');
@@ -154,7 +148,6 @@ function App() {
     history.push('/signin');
   }
 
-  // ADD CARD
   function handleAddPlaceSubmit({ name, link }) {
     api
       .addCard({ name, link })
@@ -165,19 +158,17 @@ function App() {
       .catch(handleError);
   }
 
-  // CARD LIKE
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
 
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        setCards((state) => state.map(c => c._id === card._id ? newCard : c));
+        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
       })
       .catch(handleError);
   }
 
-  // CARD DELETE
   function handleCardDelete() {
     api
       .deleteCard(cardId)
@@ -200,10 +191,8 @@ function App() {
           handleError();
         }
       });
-
   }
 
-  // UPDATE USERDATA
   function handleUpdateUser(data) {
     api
       .editProfileInfo(data)
@@ -214,7 +203,6 @@ function App() {
       .catch(handleError);
   }
 
-  // UPDATE AVATAR
   function handleUpdateAvatar({ avatar }) {
     api
       .editProfileAvatar({ avatar })
@@ -225,7 +213,6 @@ function App() {
       .catch(handleError);
   }
 
-  // OPEN POPUPS
   function handleEditAvatarClick() {
     setIsAvatarPopupOpen(true);
   }
@@ -251,13 +238,16 @@ function App() {
     setIsMenuOpen(true);
   }
 
-  // CLOSE POPUPS
   function closeAllPopups() {
     setIsAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
-    setIsInfoTooltipOpen(false);
+    setIsInfoTooltipOpen({
+      open: false,
+      message: '',
+      success: null,
+    });
     setIsDeletePlacePopupOpen(false);
     setIsMenuOpen(false);
   }
@@ -265,18 +255,14 @@ function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <Menu
-          isOpen={isMenuOpen}
-          email={email}
-          onSignOut={handleSignOut}
-        />
+        <Menu isOpen={isMenuOpen} email={email} onSignOut={handleSignOut} />
 
         <Header
           email={email}
           handleMenuOpen={handleMenuOpen}
           isOpen={isMenuOpen}
           onSignOut={handleSignOut}
-          onClose={closeAllPopups}
+          handleMenuClose={closeAllPopups}
         />
 
         <Switch>
@@ -308,11 +294,7 @@ function App() {
         </Switch>
         <Footer />
 
-        <InfoTooltip
-          name={'info'}
-          isInfoTooltipOpen={isInfoTooltipOpen}
-          onClose={closeAllPopups}
-        />
+        <InfoTooltip name={'info'} isInfoTooltipOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 

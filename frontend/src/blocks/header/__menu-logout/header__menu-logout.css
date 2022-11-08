@@ -1,24 +1,24 @@
-.header__link {
-  margin: 0;
-
-  text-decoration: none;
+.header__menu-logout {
+  border: none;
+  background-color: transparent;
+  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-
   color: #a9a9a9;
-
+  margin: 0;
+  padding: 0;
   transition: opacity 0.3s linear;
 }
 
 @media screen and (min-width: 1024px) {
-  .header__link {
+  .header__menu-logout {
     font-size: 18px;
     line-height: 22px;
   }
 }
 
-.header__link:hover {
+.header__menu-logout:hover {
   cursor: pointer;
   opacity: 0.6;
 }

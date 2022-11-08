@@ -1,12 +1,13 @@
 @import url(../src/vendor/normalize.css);
 @import url(../src/vendor/fonts/fonts.css);
 @import url(../src/blocks/page/page.css);
+@import url(../src/blocks/root/root.css);
 /* HEADER */
 @import url(../src/blocks/header/header.css);
 @import url(../src/blocks/header/__logo/header__logo.css);
 @import url(../src/blocks/header/__menu/header__menu.css);
-@import url(../src/blocks/header/__email/header__email.css);
-@import url(../src/blocks/header/__link/header__link.css);
+@import url(../src/blocks/header/__menu-item/header__menu-item.css);
+@import url(../src/blocks/header/__menu-logout/header__menu-logout.css);
 @import url(../src/blocks/header/__button/header__button.css);
 @import url(../src/blocks/header/__close-button/header__close-button.css);
 /* CONTENT */
@@ -15,7 +16,7 @@
 @import url(../src/blocks/profile/profile.css);
 @import url(../src/blocks/profile/__avatar-container/profile__avatar-container.css);
 @import url(../src/blocks/profile/__avatar/profile__avatar.css);
-@import url(../src/blocks/profile/__avatar-edit/profile__avatar-edit.css);
+@import url(../src/blocks/profile/__edit-button/profile__edit-button.css);
 @import url(../src/blocks/profile/__info/profile__info.css);
 @import url(../src/blocks/profile/__title-container/profile__title-container.css);
 @import url(../src/blocks/profile/__title/profile__title.css);
@@ -39,6 +40,7 @@
 /* FOOTER */
 @import url(../src/blocks/footer/footer.css);
 @import url(../src/blocks/footer/__copyright/footer__copyright.css);
+@import url(../src/blocks/footer/__link/footer__link.css);
 /* POPUP-FORM */
 @import url(../src/blocks/popup/popup.css);
 @import url(../src/blocks/popup/_opened/popup_opened.css);
@@ -85,8 +87,11 @@
 @import url(../src/blocks/form/__input/_type_password/form__input_type_password.css);
 @import url(../src/blocks/form/__link/form__link.css);
 @import url(../src/blocks/form/__submit-button/form__submit-button.css);
+@import url(../src/blocks/form/__submit-button/_enabled/form__submit-button_enabled.css);
+@import url(../src/blocks/form/__submit-button/_disabled/form__submit-button_disabled.css);
 @import url(../src/blocks/form/__caption/form__caption.css);
 @import url(../src/blocks/form/__link/form__link.css);
+@import url(../src/blocks/form/__input-error/form__input-error.css);
 /* NOT FOUND*/
 @import url(../src/blocks/not-found/not-found.css);
 @import url(../src/blocks/not-found/__title/not-found__title.css);

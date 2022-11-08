@@ -1,6 +1,7 @@
 .header__close-button {
   width: 20px;
   height: 20px;
+  padding: 0;
   border: none;
   background-color: transparent;
   background-image: url(../../../images/close-icon.svg);

@@ -1,10 +1,11 @@
-.header__email {
+.header__menu-item {
   margin: 0;
-
+  text-decoration: none;
   color: #fff;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
+  align-self: center;
 
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -12,7 +13,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-  .header__email {
+  .header__menu-item {
     font-size: 18px;
     line-height: 22px;
   }
