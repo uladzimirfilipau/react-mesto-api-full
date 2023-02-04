@@ -1,6 +1,4 @@
 const allowedCors = [
-  'https://vladimirfilippov.students.nomoredomains.sbs',
-  'http://vladimirfilippov.students.nomoredomains.sbs',
   'http://localhost:3000',
 ];
 
