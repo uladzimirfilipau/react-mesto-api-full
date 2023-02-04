@@ -19,6 +19,7 @@ import {
   handleError,
   SUCCESS_REGISTER,
   SOMETHING_WRONG,
+  WRONG_DATA,
   CARD_DELETE,
   ERROR_DELETE,
 } from '../utils/consts.js';
@@ -135,7 +136,7 @@ function App() {
         setLoggedIn(false);
         setIsInfoTooltipOpen({
           open: true,
-          message: SOMETHING_WRONG,
+          message: WRONG_DATA,
           success: false,
         });
       });
