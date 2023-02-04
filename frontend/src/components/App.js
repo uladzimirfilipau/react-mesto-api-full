@@ -12,14 +12,23 @@ import EditProfilePopup from './popups/EditProfilePopup';
 import AddPlacePopup from './popups/AddPlacePopup';
 import DeletePlacePopup from './popups/DeletePlacePopup';
 import InfoTooltip from './popups/InfoTooltip';
+import Menu from './popups/Menu';
 
 import api from '../utils/api.js';
-import handleError from '../utils/utils.js';
+import {
+  handleError,
+  SUCCESS_REGISTER,
+  SOMETHING_WRONG,
+  WRONG_DATA,
+  CARD_DELETE,
+  ERROR_DELETE,
+} from '../utils/consts.js';
 import * as auth from '../utils/auth';
 
 import Register from './Register';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
+import PageNotFound from './PageNotFound';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -28,43 +37,18 @@ function App() {
   const [isEditAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState({
+    open: false,
+    message: '',
+    success: null,
+  });
   const [isDeletePlacePopupOpen, setIsDeletePlacePopupOpen] = useState(false);
   const [cardId, setCardId] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const history = useHistory();
 
-  // CHECK TOKEN
-  useEffect(() => {
-    const token = localStorage.getItem('jwt');
-
-    if (token) {
-      auth
-        .checkToken(token)
-        .then(({ email }) => {
-          setLoggedIn(true);
-          setEmail(email);
-          history.push('/');
-        })
-        .catch(handleError);
-    }
-  }, [history]);
-
-  // GET INITIAL DATA
-  useEffect(() => {
-    if (loggedIn) {
-    api
-      .getInitialData()
-      .then(([profileData, cardsData]) => {
-        setCurrentUser(profileData);
-        setCards(cardsData);
-      })
-      .catch(handleError);
-    }
-  }, [loggedIn]);
-
-  // HANDLE CLOSE
   useEffect(() => {
     function handleEscClose(e) {
       const ESC_CODE = 'Escape';
@@ -88,38 +72,76 @@ function App() {
     };
   }, []);
 
-  // REGISTER
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+
+    if (jwt) {
+      auth
+        .checkToken(jwt)
+        .then(({ email }) => {
+          setEmail(email);
+          setLoggedIn(true);
+          getInitialData();
+          history.push('/');
+        })
+        .catch(handleError);
+    }
+  }, [loggedIn, history]);
+
+  function getInitialData() {
+    api
+      .getInitialData()
+      .then(([profileData, cardsData]) => {
+        setCurrentUser(profileData);
+        setCards(cardsData);
+      })
+      .catch(handleError);
+  }
+
   function handleRegister({ email, password }) {
     auth
       .register({ email, password })
       .then(() => {
-          setLoggedIn(true);
-          setIsInfoTooltipOpen(true);
-          history.push('/signin');
+        setLoggedIn(true);
+        setIsInfoTooltipOpen({
+          open: true,
+          message: SUCCESS_REGISTER,
+          success: true,
+        });
+        history.push('/signin');
       })
       .catch(() => {
         setLoggedIn(false);
-        setIsInfoTooltipOpen(true);
+        setIsInfoTooltipOpen({
+          open: true,
+          message: SOMETHING_WRONG,
+          success: false,
+        });
       });
   }
 
-  // LOGIN
   function handleLogin({ email, password }) {
     auth
       .authorize({ email, password })
       .then(({ token }) => {
-        setLoggedIn(true);
-        localStorage.setItem('jwt', token);
-        setEmail(email);
-        history.push('/');
+        if (token) {
+          localStorage.setItem('jwt', token);
+          setLoggedIn(true);
+          setEmail(email);
+          getInitialData();
+          history.push('/');
+        }
       })
       .catch(() => {
         setLoggedIn(false);
-        setIsInfoTooltipOpen(true);
+        setIsInfoTooltipOpen({
+          open: true,
+          message: WRONG_DATA,
+          success: false,
+        });
       });
   }
 
-  // SIGNOUT
   function handleSignOut() {
     localStorage.removeItem('jwt');
     setEmail('');
@@ -127,7 +149,71 @@ function App() {
     history.push('/signin');
   }
 
-  // OPEN POPUPS
+  function handleAddPlaceSubmit({ name, link }) {
+    api
+      .addCard({ name, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch(handleError);
+  }
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i === currentUser._id);
+
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+      })
+      .catch(handleError);
+  }
+
+  function handleCardDelete() {
+    api
+      .deleteCard(cardId)
+      .then(() => {
+        setCards((cards) => cards.filter((c) => c._id !== cardId && c));
+        setIsInfoTooltipOpen({
+          open: true,
+          message: CARD_DELETE,
+          success: true,
+        });
+      })
+      .catch((err) => {
+        if (err.includes(403)) {
+          setIsInfoTooltipOpen({
+            open: true,
+            message: ERROR_DELETE,
+            success: false,
+          });
+        } else {
+          handleError();
+        }
+      });
+  }
+
+  function handleUpdateUser(data) {
+    api
+      .editProfileInfo(data)
+      .then((newData) => {
+        setCurrentUser(newData);
+        closeAllPopups();
+      })
+      .catch(handleError);
+  }
+
+  function handleUpdateAvatar({ avatar }) {
+    api
+      .editProfileAvatar({ avatar })
+      .then((newAvatar) => {
+        setCurrentUser(newAvatar);
+        closeAllPopups();
+      })
+      .catch(handleError);
+  }
+
   function handleEditAvatarClick() {
     setIsAvatarPopupOpen(true);
   }
@@ -149,75 +235,36 @@ function App() {
     setCardId(card._id);
   }
 
-  // ADD CARD
-  function handleAddPlaceSubmit({ name, link }) {
-    api
-      .addCard({ name, link })
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
-      .catch(handleError);
-  }
-  
-  // CARD LIKE
-  function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i === currentUser._id);
-
-    api
-      .changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-        setCards((state) => state.map(c => c._id === card._id ? newCard : c));
-      })
-      .catch(handleError);
+  function handleMenuOpen() {
+    setIsMenuOpen(true);
   }
 
-  // CARD DELETE
-  function handleCardDelete() {
-    api
-      .deleteCard(cardId)
-      .then(() => {
-        setCards((cards) => cards.filter((c) => c._id !== cardId && c));
-      })
-      .catch(handleError);
-  }
-
-  // UPDATE USERDATA
-  function handleUpdateUser(data) {
-    api
-      .editProfileInfo(data)
-      .then((newData) => {
-        setCurrentUser(newData);
-        closeAllPopups();
-      })
-      .catch(handleError);
-  }
-
-  // UPDATE AVATAR
-  function handleUpdateAvatar({ avatar }) {
-    api
-      .editProfileAvatar({ avatar })
-      .then((newAvatar) => {
-        setCurrentUser(newAvatar);
-        closeAllPopups();
-      })
-      .catch(handleError);
-  }
-
-  // CLOSE POPUPS
   function closeAllPopups() {
     setIsAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
-    setIsInfoTooltipOpen(false);
+    setIsInfoTooltipOpen({
+      open: false,
+      message: '',
+      success: null,
+    });
     setIsDeletePlacePopupOpen(false);
+    setIsMenuOpen(false);
   }
 
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <Header email={email} onSignOut={handleSignOut} />
+        <Menu isOpen={isMenuOpen} email={email} onSignOut={handleSignOut} />
+
+        <Header
+          email={email}
+          handleMenuOpen={handleMenuOpen}
+          isOpen={isMenuOpen}
+          onSignOut={handleSignOut}
+          handleMenuClose={closeAllPopups}
+        />
 
         <Switch>
           <ProtectedRoute
@@ -242,16 +289,13 @@ function App() {
             <Login onLogin={handleLogin} />
           </Route>
 
+          <Route path='*' component={PageNotFound} />
+
           <Route>{loggedIn ? <Redirect to='/' /> : <Redirect to='/signup' />}</Route>
         </Switch>
         <Footer />
 
-        <InfoTooltip
-          name={'info'}
-          isOpen={isInfoTooltipOpen}
-          state={loggedIn}
-          onClose={closeAllPopups}
-        />
+        <InfoTooltip name={'info'} isInfoTooltipOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
