@@ -1,33 +1,25 @@
-import { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import AuthForm from './AuthForm';
+import useFormAndValidation from '../hooks/useFormAndValidation';
 
 function Login({ onLogin }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-  }
-
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
+  const { values, handleChange, errors, isValid } = useFormAndValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
-    onLogin({ email, password });
+    onLogin(values);
   }
 
   return (
     <AuthForm
-      email={email}
-      password={password}
       title={'Вход'}
       buttonText={'Войти'}
+      values={values}
+      errors={errors}
+      isValid={isValid}
       handleSubmit={handleSubmit}
-      handleEmailChange={handleEmailChange}
-      handlePasswordChange={handlePasswordChange}
+      handleChange={handleChange}
     >
       <p className='form__caption'>
         Не зарегистрированы?&nbsp;
