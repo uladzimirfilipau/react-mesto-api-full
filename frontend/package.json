@@ -13,15 +13,14 @@
     "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^5.3.3"
+    "react-router-dom": "^5.3.3",
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "react-scripts build",
-    "deploy": "npm run build && scp -r ./build/* vova@51.250.101.206:/home/vova/frontend"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
