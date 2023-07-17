@@ -76,8 +76,8 @@ class Api {
 
 let url = '';
 const { NODE_ENV } = process.env;
-if ( NODE_ENV === 'production' ) {
-  url = 'https://api.vladimirfilippov.students.nomoredomains.sbs';
+if (NODE_ENV === 'production') {
+  url = 'https://react-mesto-api-f6b8.onrender.com';
 } else {
   url = 'http://localhost:3001';
 }
