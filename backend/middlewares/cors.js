@@ -1,5 +1,6 @@
 const allowedCors = [
   'http://localhost:3000',
+  'https://mesto-react-ulfi.netlify.app',
 ];
 
 module.exports = (req, res, next) => {
