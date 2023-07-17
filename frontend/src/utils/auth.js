@@ -1,7 +1,7 @@
 let BASE_URL = '';
 const { NODE_ENV } = process.env;
 if ( NODE_ENV === 'production' ) {
-  BASE_URL = 'https://api.vladimirfilippov.students.nomoredomains.sbs';
+  BASE_URL = 'https://react-mesto-api-f6b8.onrender.com';
 } else {
   BASE_URL = 'http://localhost:3001';
 }
