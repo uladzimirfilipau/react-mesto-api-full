@@ -7,15 +7,15 @@ module.exports = (req, res, next) => {
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
     next(new AuthError('Необходима авторизация'));
+  } else {
+    const token = authorization.replace('Bearer ', '');
+    let payload;
+    try {
+      payload = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      return next(new AuthError('Необходима авторизация'));
+    }
+    req.user = payload;
   }
-
-  const token = authorization.replace('Bearer ', '');
-  let payload;
-  try {
-    payload = jwt.verify(token, JWT_SECRET);
-  } catch (err) {
-    return next(new AuthError('Необходима авторизация'));
-  }
-  req.user = payload;
   return next();
 };
