@@ -1,10 +1,4 @@
-let BASE_URL = '';
-const { NODE_ENV } = process.env;
-if ( NODE_ENV === 'production' ) {
-  BASE_URL = 'https://react-mesto-api-f6b8.onrender.com';
-} else {
-  BASE_URL = 'http://localhost:3001';
-}
+import { BASE_URL } from '../utils/consts';
 
 const getResponse = (res) => {
   if (res.ok) {
@@ -30,18 +24,16 @@ export const authorize = ({ email, password }) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
-  })
-  .then(getResponse);
+  }).then(getResponse);
 };
 
 export const checkToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
-      'Accept': "application/json",
+      Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
-  })
-  .then(getResponse);
+  }).then(getResponse);
 };
