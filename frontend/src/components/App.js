@@ -86,7 +86,7 @@ function App() {
         })
         .catch(handleError);
     }
-  }, [loggedIn, history]);
+  }, [setLoggedIn, history]);
 
   function getInitialData() {
     api
@@ -149,7 +149,7 @@ function App() {
     history.push('/signin');
   }
 
-  function handleAddPlaceSubmit({ name, link }) {
+  function handlePlaceSubmit({ name, link }) {
     api
       .addCard({ name, link })
       .then((newCard) => {
@@ -314,7 +314,7 @@ function App() {
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          onAddPlace={handleAddPlaceSubmit}
+          onAddPlace={handlePlaceSubmit}
         />
 
         <DeletePlacePopup

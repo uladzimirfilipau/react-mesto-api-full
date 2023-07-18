@@ -1,3 +1,5 @@
+import { BASE_URL } from '../utils/consts';
+
 class Api {
   constructor({ url }) {
     this._url = url;
@@ -74,14 +76,6 @@ class Api {
   }
 }
 
-let url = '';
-const { NODE_ENV } = process.env;
-if (NODE_ENV === 'production') {
-  url = 'https://react-mesto-api-f6b8.onrender.com';
-} else {
-  url = 'http://localhost:3001';
-}
-
 const getHeaders = () => {
   return {
     'Accept': "application/json",
@@ -91,7 +85,7 @@ const getHeaders = () => {
 }
 
 const api = new Api({
-  url: url,
+  url: BASE_URL,
 });
 
 export default api;
