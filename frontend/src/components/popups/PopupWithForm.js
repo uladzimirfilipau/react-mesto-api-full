@@ -9,6 +9,11 @@ function PopupWithForm({
   onClose,
   onSubmit,
 }) {
+
+    if (!isOpen) {
+      return null;
+    }
+
   return (
     <section className={`popup popup_${name} ${isOpen && 'popup_opened'}`}>
       <form
@@ -18,7 +23,7 @@ function PopupWithForm({
         noValidate
         onSubmit={onSubmit}
       >
-        
+
         <button
           type='button'
           aria-label='Закрыть'
