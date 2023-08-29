@@ -29,6 +29,7 @@ import Register from './Register';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
 import PageNotFound from './PageNotFound';
+import LoadingModal from './popups/LoadingModal';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -47,6 +48,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -99,6 +101,8 @@ function App() {
   }
 
   function handleRegister({ email, password }) {
+    setIsLoading(true);
+
     auth
       .register({ email, password })
       .then(() => {
@@ -108,10 +112,12 @@ function App() {
           message: SUCCESS_REGISTER,
           success: true,
         });
-        history.push('/signin');
+          history.push('/signin');
+          setIsLoading(false);
       })
       .catch(() => {
         setLoggedIn(false);
+        setIsLoading(false);
         setIsInfoTooltipOpen({
           open: true,
           message: SOMETHING_WRONG,
@@ -121,6 +127,8 @@ function App() {
   }
 
   function handleLogin({ email, password }) {
+    setIsLoading(true);
+
     auth
       .authorize({ email, password })
       .then(({ token }) => {
@@ -130,10 +138,12 @@ function App() {
           setEmail(email);
           getInitialData();
           history.push('/');
+          setIsLoading(false);
         }
       })
       .catch(() => {
         setLoggedIn(false);
+        setIsLoading(false);
         setIsInfoTooltipOpen({
           open: true,
           message: WRONG_DATA,
@@ -322,6 +332,8 @@ function App() {
           onClose={closeAllPopups}
           onCardDelete={handleCardDelete}
         />
+
+        <LoadingModal loading={isLoading} name={'info'}/>
       </CurrentUserContext.Provider>
     </>
   );
