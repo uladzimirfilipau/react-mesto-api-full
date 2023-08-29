@@ -3,9 +3,14 @@ import iconApprove from '../../images/icon-approve.svg';
 import iconReject from '../../images/icon-reject.svg';
 
 function InfoTooltip({ name, isInfoTooltipOpen, onClose }) {
+  const { open, success, message } = isInfoTooltipOpen;
+
+  if (!open) {
+    return null;
+  }
 
   return (
-    <section className={`popup popup_${name} ${isInfoTooltipOpen.open && 'popup_opened'}`}>
+    <section className={`popup popup_${name} ${open && 'popup_opened'}`}>
       <div className='popup__content'>
         <button
           type='button'
@@ -16,11 +21,11 @@ function InfoTooltip({ name, isInfoTooltipOpen, onClose }) {
 
         <img
           className='popup__icon'
-          src={isInfoTooltipOpen.success ? iconApprove : iconReject}
-          alt={isInfoTooltipOpen.success ? 'Успех' : 'Неудача'}
+          src={success ? iconApprove : iconReject}
+          alt={success ? 'Успех' : 'Неудача'}
         />
 
-        <p className='popup__text'>{isInfoTooltipOpen.message}</p>
+        <p className='popup__text'>{message}</p>
       </div>
     </section>
   );

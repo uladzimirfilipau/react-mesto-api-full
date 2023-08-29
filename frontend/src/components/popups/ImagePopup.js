@@ -1,6 +1,9 @@
 import React from 'react';
 
 function ImagePopup({ card, onClose }) {
+  if (!card) {
+    return null;
+  }
 
   return (
     <section
@@ -15,12 +18,8 @@ function ImagePopup({ card, onClose }) {
           onClick={onClose}
         />
 
-        <img
-          src={card && card.link} alt={card && card.name} className='popup__image'
-        />
-        <figcaption
-          className='popup__figure-caption'>{card && card.name}
-        </figcaption>
+        <img src={card && card.link} alt={card && card.name} className='popup__image' />
+        <figcaption className='popup__figure-caption'>{card && card.name}</figcaption>
       </figure>
     </section>
   );
